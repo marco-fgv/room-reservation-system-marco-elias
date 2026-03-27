@@ -68,13 +68,9 @@ public:
         return this->capacidade;
     }
 
-    bool estaLivre(ReservationRequest request){
-        int dia = request.getWeekdayIndex();
-        int inicio = request.getStartHour();
-        int fim = request.getEndHour();
-
+    bool estaLivre(int dia, int inicio, int fim){
         for(int i = inicio; i < fim; i++){
-            if(this->dias[dia].horas_uteis[i-7].getReservado() == true){
+            if(this->dias[dia].horas_uteis[i-7].getReservado()){
                 return false;
             }
             else{
@@ -83,8 +79,10 @@ public:
         }
     }
 
-    void reservar(){
-
+    void reservar(int dia, int inicio, int fim){
+        for(int i = inicio; i < fim; i++){
+            this->dias[dia].horas_uteis[i-7].reservarHorario();
+        }
     }
 
 };
@@ -119,6 +117,8 @@ public:
         // verificação se o fim da aula é posterior ao início
         int inicio = request.getStartHour();
         int fim = request.getEndHour();
+        int dia = request.getWeekdayIndex();
+
         if(fim <= inicio){
             return false;
         }
@@ -127,8 +127,8 @@ public:
             if(request.getStudentCount() > salas[i].getCapacidade()){
                 continue;
             }
-            if(salas[i].estaLivre(request)){
-                salas[i].reservar();
+            if(salas[i].estaLivre(dia, inicio, fim)){
+                salas[i].reservar(dia, inicio, fim);
             }
         }
     }
@@ -139,12 +139,3 @@ public:
     // Outros métodos utilitários necessários
     // para auxiliar nas funções requisitadas
 };
-
-int main(){
-    int capacidades[3] = {100, 200, 300};
-    Dia dias[5] = {Dia("Segunda"), Dia("Terça"), Dia("Quarta"), Dia("Quinta"), Dia("Sexta")};
-
-    ReservationSystem sistema(3, capacidades);
-
-    ReservationRequest request("AL", "Segunda", 7, 9, 10);
-}
