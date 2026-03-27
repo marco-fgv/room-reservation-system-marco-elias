@@ -8,6 +8,7 @@ private:
     int start_hour;
     int end_hour;
     int student_count;
+    int weekdayIndex;
 
 public:
 
@@ -19,4 +20,6 @@ public:
     std::string getCourseName();
     std::string getWeekday();
     int getStudentCount();
+    int toIndex(string dia);
+    int getWeekdayIndex();
 };

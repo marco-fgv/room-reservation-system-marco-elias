@@ -9,12 +9,14 @@ private:
     int start_hour;
     int end_hour;
     int student_count;
+    int weekdayIndex;
 
 public:
 
     ReservationRequest(string course_name, string weekday, int start_hour, int end_hour, int student_count){
         this->course_name = course_name;
         this->weekday = weekday;
+        this->weekdayIndex = toIndex(weekday);
         this->start_hour = start_hour;
         this->end_hour = end_hour;
         this->student_count = student_count;
@@ -35,5 +37,25 @@ public:
     }
     int getStudentCount(){
         return student_count;
+    }
+    int toIndex(string dia){
+        if(dia == "segunda"){
+            return 0;
+        }
+        if(dia == "terca"){
+            return 1;
+        }
+        if(dia == "quarta"){
+            return 2;
+        }
+        if(dia == "quinta"){
+            return 3;
+        }
+        if(dia == "sexta"){
+            return 4;
+        }
+    }
+    int getWeekdayIndex(){
+        return this->weekdayIndex;
     }
 };
