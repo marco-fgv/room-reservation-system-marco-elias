@@ -76,7 +76,7 @@ public:
         cout << "Sala " << this->numero_sala << endl;
         for(int i = 0; i < 5; i++){
             // Dias que não possuem reserva não são printados
-            if(~this->dias[i].possuiReserva()){
+            if(!this->dias[i].possuiReserva()){
                 continue;
             }
 
