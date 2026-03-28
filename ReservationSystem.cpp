@@ -49,7 +49,7 @@ class Sala {
 
     int capacidade;
     int numero_sala;
-    Dia dias[5] = {Dia("Segunda"), Dia("Terca"), Dia("Quarta"), Dia("Quinta"), Dia("Sexta")};
+    Dia dias[5] = {Dia("segunda"), Dia("terca"), Dia("quarta"), Dia("quinta"), Dia("sexta")};
 
 public:
     Sala(){}
