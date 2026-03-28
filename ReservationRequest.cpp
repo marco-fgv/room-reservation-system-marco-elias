@@ -10,7 +10,8 @@ ReservationRequest::ReservationRequest(string course_name, string weekday, int s
     this->end_hour = end_hour;
     this->student_count = student_count;
 }
-// ~ReservationRequest();
+
+ReservationRequest::~ReservationRequest(){}
 
 int ReservationRequest::getStartHour(){
     return this->start_hour;

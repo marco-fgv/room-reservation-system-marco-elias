@@ -27,19 +27,19 @@ void Dia::reservarHorario(int horario, string nome_curso){
     this->cursos[horario-7] = nome_curso;
 }
 
-void Dia::cancelarHorario(int horario, string nome_curso){
+void Dia::cancelarHorario(int horario){
     this->horas_uteis[horario-7] = false;
     this->cursos[horario-7] = "livre";
 }
 
 bool Dia::getReservado(int horario){
-    return horas_uteis[horario];
+    return horas_uteis[horario-7];
 }
 
 bool Dia::possuiReserva(){
     // Verifica se nesse dia possui alguma reserva para montar o schedule
     for(int i = 0; i < 14; i++){
-        if(horas_uteis[i] == true){
+        if(horas_uteis[i]){
             return true;
         }
     }
@@ -79,7 +79,7 @@ void Sala::display(){
         int j = 0;
         while (j < 14){
             // 'for' segmentado para ver quando começa e termina uma aula
-            if(!this->dias[i].getReservado(j)){
+            if(!this->dias[i].getReservado(j+7)){
                 j++;
                 continue;
             }
@@ -96,7 +96,7 @@ void Sala::display(){
             // fim da aula
             int fim = k;
 
-            cout << inicio+7 << "h~" << fim+7 << "h: " << curso << endl;
+            cout << inicio + 7 << "h~" << fim + 7 << "h: " << curso << endl;
             
             // pula as posições ja visitadas
             j = k;
@@ -111,7 +111,7 @@ int Sala::getCapacidade(){
 bool Sala::estaLivre(int dia, int inicio, int fim){
     // Verifica se há conflito
     for(int i = inicio; i < fim; i++){
-        if(this->dias[dia].getReservado(i-7)){
+        if(this->dias[dia].getReservado(i)){
             return false;
         }
     }
@@ -122,6 +122,21 @@ void Sala::reservar(int dia, int inicio, int fim, string nome_curso){
     for(int i = inicio; i < fim; i++){
         this->dias[dia].reservarHorario(i, nome_curso);
     }
+}
+
+bool Sala::cancelar(string nome_curso){
+    bool cancelado = false;
+    for(int i = 0; i < 5; i++){
+
+        for(int j = 0; j < 14; j++){
+
+            if(this->dias[i].getCurso(j) == nome_curso){
+                this->dias[i].cancelarHorario(j+7);
+                cancelado = true;
+            }
+        }
+    }
+    return cancelado;
 }
 
 bool Sala::SalaPossuiReserva(){
@@ -175,7 +190,17 @@ bool ReservationSystem::reserve(ReservationRequest request){
     return false;
 }
 
-// bool ReservationSystem::cancel(std::string course_name);
+bool ReservationSystem::cancel(string course_name){
+    bool foiCancelado = false;
+
+    for(int i = 0; i < room_count; i++){
+        if(salas[i].cancelar(course_name)){
+            foiCancelado = true;
+        }
+    }
+
+    return foiCancelado;
+}
 
 void ReservationSystem::printSchedule(){
     for(int i = 0; i < this->room_count; i++){

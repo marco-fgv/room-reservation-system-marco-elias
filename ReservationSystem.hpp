@@ -16,7 +16,7 @@ public:
 
     std::string getDia();
     void reservarHorario(int horario, std::string nome_curso);
-    void cancelarHorario(int horario, std::string nome_curso);
+    void cancelarHorario(int horario);
     bool getReservado(int horario);
     bool possuiReserva();
     std::string getCurso(int i);
@@ -37,6 +37,7 @@ public:
     int getCapacidade();
     bool estaLivre(int dia, int inicio, int fim);
     void reservar(int dia, int inicio, int fim, std::string nome_curso);
+    bool cancelar(std::string nome_curso);
     bool SalaPossuiReserva();
 };
 
@@ -51,7 +52,7 @@ public:
     ~ReservationSystem();
 
     bool reserve(ReservationRequest request);
-    // bool cancel(std::string course_name);
+    bool cancel(std::string course_name);
     void printSchedule();
 };
 

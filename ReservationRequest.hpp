@@ -20,7 +20,7 @@ public:
                        int end_hour,
                        int student_count);
 
-    // ~ReservationRequest();
+    ~ReservationRequest();
 
     int getStartHour();
     int getEndHour();
