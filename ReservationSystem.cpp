@@ -2,6 +2,9 @@
 #include "ReservationRequest.hpp"
 using namespace std;
 
+// ======================================================
+// Classe Dia
+// ======================================================
 class Dia {
 private:
     string nome_dia;
@@ -11,9 +14,11 @@ private:
 public:
     Dia(string nome_dia){
         this->nome_dia = nome_dia;
+
         for (int i = 0; i < 14; i++){
+            // inicia com todos horários livres
             this->horas_uteis[i] = false;
-            this->cursos[i-7] = "livre";
+            this->cursos[i] = "livre";
         }
     }
 
@@ -29,8 +34,25 @@ public:
     bool getReservado(int horario){
         return horas_uteis[horario-7];
     }
+
+    bool possuiReserva(){
+        // Verifica se nesse dia possui alguma reserva para montar o schedule
+        for(int i = 0; i < 15; i++){
+            if(horas_uteis[i] == true){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    string getCurso(int i){
+        return this->cursos[i];
+    }
 };
 
+// ======================================================
+// Classe Sala
+// ======================================================
 class Sala {
 
     int capacidade;
@@ -47,7 +69,19 @@ public:
 
     void display(){
         cout << "Sala " << this->numero_sala << endl;
-        cout << "Capacidade: " << this->capacidade << endl;
+        for(int i = 0; i < 5; i++){
+            // Dias que não possuem reserva não são printados
+            if(~this->dias[i].possuiReserva()){
+                continue;
+            }
+
+            cout << this->dias[i].getDia() << endl;
+            
+            for(int j = 0; j < 15; j++){
+                if(this->dias[i].getReservado(j)){
+                }
+            }
+        }
     }
     
     int getCapacidade(){
@@ -71,16 +105,15 @@ public:
 
 };
 
+// ======================================================
+// Classe sistema
+// ======================================================
 class ReservationSystem {
 
 public:
     int room_count;
     int* room_capacities;
     Sala* salas;
-
-    // Estruturas internas escolhidas pelos alunos
-    // para armazenar e gerenciar as reservas, os horários, ...
-
 
     ReservationSystem(int room_count, int* room_capacities){
         this->room_count = room_count;
@@ -89,6 +122,7 @@ public:
         salas = new Sala[room_count];
 
         for(int i = 0; i < room_count; i++){
+            // Criação das salas
             salas[i] = Sala(room_capacities[i], i);
         }
     }
