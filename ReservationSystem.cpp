@@ -42,7 +42,7 @@ public:
 
     bool possuiReserva(){
         // Verifica se nesse dia possui alguma reserva para montar o schedule
-        for(int i = 0; i < 15; i++){
+        for(int i = 0; i < 14; i++){
             if(horas_uteis[i] == true){
                 return true;
             }
