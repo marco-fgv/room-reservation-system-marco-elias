@@ -36,8 +36,8 @@ public:
         this->cursos[horario-7] = "livre";
     }
 
-    bool getReservado(int horario){
-        return horas_uteis[horario-7];
+    bool getReservado(int indice){
+        return horas_uteis[indice];
     }
 
     bool possuiReserva(){
@@ -82,7 +82,7 @@ public:
 
             cout << this->dias[i].getDia() << endl;
             
-            for(int j = 0; j < 15; j++){
+            for(int j = 0; j < 14; j++){
                 if(this->dias[i].getReservado(j)){
                 }
             }
