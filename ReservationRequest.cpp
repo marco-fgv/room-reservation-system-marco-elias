@@ -29,6 +29,7 @@ int ReservationRequest::getStudentCount(){
     return student_count;
 }
 int ReservationRequest::toIndex(string dia){
+    // Função que auxlia a busca
     if(dia == "segunda"){
         return 0;
     }
@@ -44,6 +45,7 @@ int ReservationRequest::toIndex(string dia){
     if(dia == "sexta"){
         return 4;
     }
+    // return -1 para evitar warming
     return -1;
 }
 
