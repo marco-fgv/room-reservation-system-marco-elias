@@ -33,13 +33,13 @@ void Dia::cancelarHorario(int horario){
 }
 
 bool Dia::getReservado(int horario){
-    return horas_uteis[horario-7];
+    return this->horas_uteis[horario-7];
 }
 
 bool Dia::possuiReserva(){
     // Verifica se nesse dia possui alguma reserva para montar o schedule
     for(int i = 0; i < 14; i++){
-        if(horas_uteis[i]){
+        if(this->horas_uteis[i]){
             return true;
         }
     }
@@ -58,11 +58,11 @@ Sala::Sala(){}
 Sala::Sala(int capacidade, int numero){
     this->capacidade = capacidade;
     this->numero_sala = numero+1;
-    dias[0] = Dia("segunda");
-    dias[1] = Dia("terca");
-    dias[2] = Dia("quarta");
-    dias[3] = Dia("quinta");
-    dias[4] = Dia("sexta");
+    this->dias[0] = Dia("segunda");
+    this->dias[1] = Dia("terca");
+    this->dias[2] = Dia("quarta");
+    this->dias[3] = Dia("quinta");
+    this->dias[4] = Dia("sexta");
 }
 
 void Sala::display(){
@@ -129,7 +129,7 @@ bool Sala::cancelar(string nome_curso){
     for(int i = 0; i < 5; i++){
 
         for(int j = 0; j < 14; j++){
-
+            // Procura em cada horario de cada dia se há a ocorrencia da aula
             if(this->dias[i].getCurso(j) == nome_curso){
                 this->dias[i].cancelarHorario(j+7);
                 cancelado = true;
@@ -140,6 +140,7 @@ bool Sala::cancelar(string nome_curso){
 }
 
 bool Sala::SalaPossuiReserva(){
+    // Verifica se a sala possui alguma reserva em algum dia
     for(int i = 0; i < 5; i++){
         if(this->dias[i].possuiReserva()){
             return true;
@@ -178,10 +179,13 @@ bool ReservationSystem::reserve(ReservationRequest request){
         return false;
     }
 
+    // Percorre, no pior dos casos, todas as salas
     for(int i = 0; i < this->room_count; i++){
+        // verificação da capacidade
         if(request.getStudentCount() > salas[i].getCapacidade()){
             continue;
         }
+        // verificação se no horario solicitado a sala está livre
         if(salas[i].estaLivre(dia, inicio, fim)){
             salas[i].reservar(dia, inicio, fim, nome_curso);
             return true;
@@ -193,6 +197,7 @@ bool ReservationSystem::reserve(ReservationRequest request){
 bool ReservationSystem::cancel(string course_name){
     bool foiCancelado = false;
 
+    // Percorre todas as salas e chama o método que procura se há a ocorrencia dessa aula
     for(int i = 0; i < room_count; i++){
         if(salas[i].cancelar(course_name)){
             foiCancelado = true;
@@ -211,4 +216,3 @@ void ReservationSystem::printSchedule(){
         cout << endl;
     }
 }
-
