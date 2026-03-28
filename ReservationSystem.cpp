@@ -6,12 +6,14 @@ class Dia {
 private:
     string nome_dia;
     bool horas_uteis[14];
+    string cursos[14];
 
 public:
     Dia(string nome_dia){
         this->nome_dia = nome_dia;
         for (int i = 0; i < 14; i++){
-            horas_uteis[i] = false;
+            this->horas_uteis[i] = false;
+            this->cursos[i-7] = "livre";
         }
     }
 
@@ -19,13 +21,9 @@ public:
         return this->nome_dia;
     }
 
-    bool reservarHorario(int horario){
-        if (horas_uteis[horario-7]){
-            return false;
-        }
-
-        horas_uteis[horario-7] = true;
-        return true;
+    void reservarHorario(int horario, string nome_curso){
+        this->horas_uteis[horario-7] = true;
+        this->cursos[horario-7] = nome_curso;
     }
 
     bool getReservado(int horario){
@@ -65,9 +63,9 @@ public:
         return true;
     }
 
-    void reservar(int dia, int inicio, int fim){
+    void reservar(int dia, int inicio, int fim, string nome_curso){
         for(int i = inicio; i < fim; i++){
-            this->dias[dia].reservarHorario(i);
+            this->dias[dia].reservarHorario(i, nome_curso);
         }
     }
 
@@ -100,11 +98,12 @@ public:
     }
 
     bool reserve(ReservationRequest request){
-        // verificação se o fim da aula é posterior ao início
+        string nome_curso = request.getCourseName();
         int inicio = request.getStartHour();
         int fim = request.getEndHour();
         int dia = request.getWeekdayIndex();
-
+        
+        // verificação se o fim da aula é posterior ao início
         if(fim <= inicio){
             return false;
         }
@@ -114,7 +113,7 @@ public:
                 continue;
             }
             if(salas[i].estaLivre(dia, inicio, fim)){
-                salas[i].reservar(dia, inicio, fim);
+                salas[i].reservar(dia, inicio, fim, nome_curso);
                 return true;
             }
         }
