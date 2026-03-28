@@ -1,67 +1,58 @@
-#include <iostream>
+#ifndef RESERVATIONSYSTEM_HPP
+#define RESERVATIONSYSTEM_HPP
+
+#include <string>
 #include "ReservationRequest.hpp"
-using namespace std;
-
-class Horario {
-private:
-    int hora;
-    bool reservado;
-
-public:
-    Horario();
-    void def_hora(int h);
-    void reservarHorario();
-    bool getReservado();
-    int getHora();
-};
 
 class Dia {
 private:
-    static const int horas_totais = 15;
-    string nome_dia;
-    
-    public:
-    Horario horas_uteis[horas_totais];
-    Dia(string nome_dia);
-    string getDia();
-    
+    std::string nome_dia;
+    bool horas_uteis[14];
+    std::string cursos[14];
+
+public:
+    Dia();  
+    Dia(std::string nome_dia);
+
+    std::string getDia();
+    void reservarHorario(int horario, std::string nome_curso);
+    void cancelarHorario(int horario, std::string nome_curso);
+    bool getReservado(int horario);
+    bool possuiReserva();
+    std::string getCurso(int i);
 };
 
 class Sala {
-
+private:
     int capacidade;
     int numero_sala;
-    Dia dias[5] = {Dia("Segunda"), Dia("Terca"), Dia("Quarta"), Dia("Quinta"), Dia("Sexta")};
+    Dia dias[5];
+    bool possuiReserva;
 
 public:
-    Sala(){}
-
+    Sala();
     Sala(int capacidade, int numero);
+
     void display();
     int getCapacidade();
     bool estaLivre(int dia, int inicio, int fim);
-    void reservar(int dia, int inicio, int fim);
+    void reservar(int dia, int inicio, int fim, std::string nome_curso);
+    bool SalaPossuiReserva();
 };
 
 class ReservationSystem {
-
 private:
     int room_count;
     int* room_capacities;
-
-    // Estruturas internas escolhidas pelos alunos
-    // para armazenar e gerenciar as reservas, os horários, ...
+    Sala* salas;
 
 public:
-
     ReservationSystem(int room_count, int* room_capacities);
     ~ReservationSystem();
 
     bool reserve(ReservationRequest request);
-    bool cancel(std::string course_name);
-
+    // bool cancel(std::string course_name);
     void printSchedule();
-
-    // Outros métodos utilitários necessários
-    // para auxiliar nas funções requisitadas
 };
+
+#endif

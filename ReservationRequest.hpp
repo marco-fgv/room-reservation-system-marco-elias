@@ -1,4 +1,7 @@
-#include <iostream>
+#ifndef RESERVATIONREQUEST_HPP
+#define RESERVATIONREQUEST_HPP
+
+#include <string>
 
 class ReservationRequest {
 
@@ -11,15 +14,23 @@ private:
     int weekdayIndex;
 
 public:
+    ReservationRequest(std::string course_name,
+                       std::string weekday,
+                       int start_hour,
+                       int end_hour,
+                       int student_count);
 
-    ReservationRequest(std::string course_name, std::string weekday, int start_hour, int end_hour, int student_count);
-    ~ReservationRequest();
+    // ~ReservationRequest();
 
     int getStartHour();
     int getEndHour();
     std::string getCourseName();
     std::string getWeekday();
     int getStudentCount();
-    int toIndex(string dia);
     int getWeekdayIndex();
+
+private:
+    int toIndex(std::string dia);
 };
+
+#endif
