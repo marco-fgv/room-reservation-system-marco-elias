@@ -2,46 +2,34 @@
 #include "ReservationRequest.hpp"
 using namespace std;
 
-class Horario {
-private:
-    int hora;
-    bool reservado;
-
-public:
-    Horario(){
-        hora = 0;
-    };
-
-    void def_hora(int h){
-        hora = h;
-    }
-
-    void reservarHorario(){
-        this->reservado = true;
-    }
-    bool getReservado(){
-        return this->reservado;
-    }
-    int getHora(){
-        return this->hora;
-    }
-};
-
 class Dia {
 private:
-    static const int horas_totais = 15;
     string nome_dia;
-    
-    public:
-    Horario horas_uteis[horas_totais];
+    bool horas_uteis[14];
+
+public:
     Dia(string nome_dia){
         this->nome_dia = nome_dia;
-        for (int i = 0; i < horas_totais; i++) {
-            horas_uteis[i].def_hora(7 + i);
+        for (int i = 0; i < 15; i++){
+            horas_uteis[i] = false;
         }
-    };
+    }
+
     string getDia(){
         return this->nome_dia;
+    }
+
+    bool reservarHorario(int horario){
+        if (horas_uteis[horario-7]){
+            return false;
+        }
+
+        horas_uteis[horario-7] = true;
+        return true;
+    }
+
+    bool getReservado(int horario){
+        return horas_uteis[horario-7];
     }
 };
 
@@ -70,7 +58,7 @@ public:
 
     bool estaLivre(int dia, int inicio, int fim){
         for(int i = inicio; i < fim; i++){
-            if(this->dias[dia].horas_uteis[i-7].getReservado()){
+            if(this->dias[dia].getReservado(i)){
                 return false;
             }
             else{
@@ -81,7 +69,7 @@ public:
 
     void reservar(int dia, int inicio, int fim){
         for(int i = inicio; i < fim; i++){
-            this->dias[dia].horas_uteis[i-7].reservarHorario();
+            this->dias[dia].reservarHorario(i);
         }
     }
 
