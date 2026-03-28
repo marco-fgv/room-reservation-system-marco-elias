@@ -31,6 +31,11 @@ public:
         this->cursos[horario-7] = nome_curso;
     }
 
+    void cancelarHorario(int horario, string nome_curso){
+        this->horas_uteis[horario-7] = false;
+        this->cursos[horario-7] = "livre";
+    }
+
     bool getReservado(int horario){
         return horas_uteis[horario-7];
     }
