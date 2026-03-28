@@ -115,8 +115,10 @@ public:
             }
             if(salas[i].estaLivre(dia, inicio, fim)){
                 salas[i].reservar(dia, inicio, fim);
+                return true;
             }
         }
+        return false;
     }
     bool cancel(std::string course_name);
 
