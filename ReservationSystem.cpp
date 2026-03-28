@@ -10,7 +10,7 @@ private:
 public:
     Dia(string nome_dia){
         this->nome_dia = nome_dia;
-        for (int i = 0; i < 15; i++){
+        for (int i = 0; i < 14; i++){
             horas_uteis[i] = false;
         }
     }
@@ -61,10 +61,8 @@ public:
             if(this->dias[dia].getReservado(i)){
                 return false;
             }
-            else{
-                return true;
-            }
         }
+        return true;
     }
 
     void reservar(int dia, int inicio, int fim){
