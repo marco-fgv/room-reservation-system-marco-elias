@@ -31,13 +31,13 @@ public:
         this->cursos[horario-7] = nome_curso;
     }
 
-    void cancelarHorario(int horario){
+    void cancelarHorario(int horario, string nome_curso){
         this->horas_uteis[horario-7] = false;
         this->cursos[horario-7] = "livre";
     }
 
-    bool getReservado(int indice){
-        return horas_uteis[indice];
+    bool getReservado(int horario){
+        return horas_uteis[horario];
     }
 
     bool possuiReserva(){
@@ -53,6 +53,8 @@ public:
     string getCurso(int i){
         return this->cursos[i];
     }
+
+
 };
 
 // ======================================================
@@ -76,16 +78,38 @@ public:
         cout << "Sala " << this->numero_sala << endl;
         for(int i = 0; i < 5; i++){
             // Dias que não possuem reserva não são printados
-            if(!this->dias[i].possuiReserva()){
+            if(~this->dias[i].possuiReserva()){
                 continue;
             }
-
+            
+            // Printa o dia da semana que possui alguma reserva
             cout << this->dias[i].getDia() << endl;
             
-            for(int j = 0; j < 14; j++){
-                if(this->dias[i].getReservado(j)){
+            int j = 0;
+            while (j < 14){
+                // 'for' segmentado para ver quando começa e termina uma aula
+                if(!this->dias[i].getReservado(j)){
+                    j++;
+                    continue;
                 }
-            }
+                string curso = this->dias[i].getCurso(j);
+                
+                // inicio da aula
+                int inicio = j;
+                
+                // verifica ate onde vai a aula
+                int k = j;
+                while(k < 14 && this->dias[i].getCurso(k) == curso){
+                    k++;
+                }
+                // fim da aula
+                int fim = k;
+
+                cout << inicio << "h~" << fim << "h: " << curso << endl;
+                
+                // pula as posições ja visitadas
+                j = k;
+            }            
         }
     }
     
