@@ -23,12 +23,23 @@ Cada reserva corresponde a:
 ##  Instruções de Compilação
 
 ### Pré-requisitos
-- Compilador com suporte a **C++17 ou superior**
+- Compilador com suporte a **C++**
+- Arquivos:
+
+```
+main.cpp
+ReservationSystem.hpp
+ReservationSystem.cpp
+ReservationRequest.hpp
+ReservationRequest.cpp
+Estrutura.cpp
+Estrutura.hpp
+```
 
 ### Comando de compilação
 
 ```bash
-g++ main.cpp ReservationSystem.cpp ReservationRequest.cpp -o reservation_system
+g++ main.cpp ReservationSystem.cpp ReservationRequest.cpp Estrutura.cpp -o reservation_system
 ```
 
 ## Instruções de Execução
